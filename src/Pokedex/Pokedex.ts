@@ -7,11 +7,9 @@ const pokeJsonUrl = 'https://raw.githubusercontent.com/Trukibouge/pokemon.json/m
 export class Pokedex{
     public id = randomBytes(16).toString('hex');
     private discoveredPokemon = new Map<number, Pokemon>();
-    pokemonList = new Map<number, Pokemon>();
+    public pokemonList = new Map<number, Pokemon>();
 
-    constructor(public readonly name: string){
-        this.initializePokemonList().then(pokeList => this.pokemonList = pokeList);
-    }
+    constructor(public readonly name: string){}
 
     addDiscoveredPokemon(pokemon: Pokemon): void{
         this.discoveredPokemon.set(pokemon.id, pokemon);
@@ -36,16 +34,14 @@ export class Pokedex{
         return found;
     }
 
-    async initializePokemonList(): Promise<Map<number, Pokemon>>{
-        let pokeListRaw = await fetch(pokeJsonUrl).json();
-        let pokeList = new Map<number, Pokemon>();
-        pokeListRaw().forEach((pokemon) => this.pokemonList.set(pokemon.id, pokemon));
-        if(!pokeList){
+    async fillPokemonMap(): Promise<void> {
+        let request = await fetch(pokeJsonUrl);
+        let pokeListRaw = await request.json();
+        if(!pokeListRaw){
             return Promise.reject('Pokedex data fetch failed');
         }
-        else{
-            return Promise.resolve(pokeList);
-        }
+        pokeListRaw.forEach((pokemon) => this.pokemonList.set(pokemon.id, pokemon));
+        return Promise.resolve();
     }
 
 }

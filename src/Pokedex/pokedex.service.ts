@@ -38,4 +38,8 @@ export class PokedexService{
         }
     }
 
+    clearPokedexes(): Promise<void>{
+        return Promise.resolve(this.pokedexMap.clear());
+    }
+
 }

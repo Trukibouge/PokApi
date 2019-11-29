@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post} from "@nestjs/common";
 import {PokedexService} from "./pokedex.service";
 import {Pokedex} from "./Pokedex";
 import {PokedexCreationDTO} from "./PokedexDTO";
@@ -13,18 +13,25 @@ export class PokedexController{
     }
 
     @Post()
-    savePokedex(@Body() pokeCreationDto: PokedexCreationDTO): Promise<void>{
-        const newPokedex = new Pokedex(pokeCreationDto.name);
+    async savePokedex(@Body() pokeCreationDto: PokedexCreationDTO): Promise<void>{
+        let newPokedex = await new Pokedex(pokeCreationDto.name);
+        await newPokedex.fillPokemonMap();
         return this.pokeRepo.savePokedex(newPokedex);
     }
 
+    @Delete()
+    async clearPokedexes(): Promise<void>{
+        return this.pokeRepo.clearPokedexes();
+    }
+
     @Get(':id')
-    findById(@Param('id') id:string): Promise<Pokedex>{
+    async findById(@Param('id') id:string): Promise<Pokedex>{
         return this.pokeRepo.findById(id);
     }
 
-    @Post(':id')
-    removePokedex(@Param('id') id:string): Promise<void>{
+    @Delete(':id')
+    async removePokedex(@Param('id') id:string): Promise<void>{
         return this.pokeRepo.removePokedex(id);
     }
+
 }
