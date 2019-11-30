@@ -19,10 +19,6 @@ export class Pokedex{
         return Array.from(this.discoveredPokemon.values());
     }
 
-    getDiscoveredPokemon(name: string): Pokemon{
-        return(this.discoveredPokemon.get(this.getPokemonInformationByName(name).id));
-    }
-
     getPokemonInformationByName(name: string): Pokemon | undefined {
         let found: Pokemon;
         this.pokemonList.forEach(pokemon => {
@@ -33,6 +29,10 @@ export class Pokedex{
         });
         return found;
     }
+
+    getDiscoveredPokemon(name: string): Pokemon{
+        return(this.discoveredPokemon.get(this.getPokemonInformationByName(name).id));
+}
 
     async fillPokemonMap(): Promise<void> {
         let request = await fetch(pokeJsonUrl);
