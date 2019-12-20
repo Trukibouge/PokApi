@@ -5,7 +5,6 @@ import {Pokedex} from "./Pokedex";
 @Injectable()
 export class PokedexService{
 
-    private pokemonList: Map<number, Pokemon>;
     private pokedexMap = new Map<string, Pokedex>();
 
     constructor(){}

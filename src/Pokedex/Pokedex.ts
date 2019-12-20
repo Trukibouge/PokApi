@@ -19,6 +19,10 @@ export class Pokedex{
         return Array.from(this.discoveredPokemon.values());
     }
 
+    getAllPokemons(): Pokemon[]{
+        return Array.from(this.pokemonList.values());
+    }
+
     getPokemonInformationByName(name: string): Pokemon | undefined {
         let found: Pokemon;
         this.pokemonList.forEach(pokemon => {

@@ -3,7 +3,7 @@ import {PokedexService} from "./pokedex.service";
 import {Pokedex} from "./Pokedex";
 import {PokedexCreationDTO} from "./PokedexDTO";
 import {PokedexApi, toPokedexApi} from "../api/PokedexApi";
-import {map} from "rxjs/operators";
+import {PokemonApi, toPokemonApi} from "../api/PokemonApi";
 
 @Controller('pokedexes')
 export class PokedexController{
@@ -38,5 +38,5 @@ export class PokedexController{
     async removePokedex(@Param('id') id:string): Promise<void>{
         return this.pokeRepo.removePokedex(id);
     }
-
+    
 }
